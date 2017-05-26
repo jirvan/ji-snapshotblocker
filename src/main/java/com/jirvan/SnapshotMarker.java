@@ -2,10 +2,17 @@ package com.jirvan;
 
 public class SnapshotMarker {
 
-    public static boolean testingOnly_mustBeRemoved = true;
+    public static boolean suppressMessages = false;
+    public static boolean surroundMessagesWithBlankLines = true;
 
     public static boolean testingOnly_mustBeRemoved(String message) {
-        System.out.printf("\n%s\n\n", message);
+        if (!suppressMessages) {
+            if (surroundMessagesWithBlankLines) {
+                System.out.printf("\n%s\n\n", message);
+            } else {
+                System.out.printf("%s\n", message);
+            }
+        }
         return true;
     }
 
