@@ -40,6 +40,15 @@
         <url>https://github.com/jirvan/ji-snapshotblocker.git</url>
     </scm>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.jirvan</groupId>
+            <artifactId>ji-utils</artifactId>
+            <version>1.0.173</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
