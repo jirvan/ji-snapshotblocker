@@ -24,9 +24,10 @@ public class SnapshotMarker {
         return message != null ? testingOnly_mustBeRemoved(message) : true;
     }
 
-    public static boolean timing_mustBeRemoved(String message) {
-        System.out.printf("%s: %s\n", new Millisecond().toString(), message);
-        return true;
+    public static Timer startNewTimer(String message) {
+        Timer timer = new Timer();
+        System.out.printf("%s: %s\n", timer.start.toString(), message);
+        return timer;
     }
 
     public static boolean testingOnly_mustBeRemoved(String message) {
