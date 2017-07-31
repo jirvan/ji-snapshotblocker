@@ -1,6 +1,4 @@
-package com.jirvan;
-
-import com.jirvan.dates.Millisecond;
+package com.jirvan.snapshot;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,9 +22,13 @@ public class SnapshotMarker {
         return message != null ? testingOnly_mustBeRemoved(message) : true;
     }
 
-    public static Timer startNewTimer(String message) {
-        Timer timer = new Timer();
-        System.out.printf("%s: %s\n", timer.start.toString(), message);
+    public static Timer newTimer(String timerTitle) {
+        return new Timer(timerTitle);
+    }
+
+    public static Timer startNewTimer(String timerTitle) {
+        Timer timer = new Timer(timerTitle);
+        timer.startTimer();
         return timer;
     }
 
