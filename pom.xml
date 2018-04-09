@@ -44,7 +44,7 @@
         <dependency>
             <groupId>com.jirvan</groupId>
             <artifactId>ji-utils</artifactId>
-            <version>1.0.173</version>
+            <version>1.0.181-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
     </dependencies>

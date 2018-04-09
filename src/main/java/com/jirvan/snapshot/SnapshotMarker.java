@@ -1,5 +1,7 @@
 package com.jirvan.snapshot;
 
+import com.jirvan.util.Timer;
+
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -22,14 +24,68 @@ public class SnapshotMarker {
         return message != null ? testingOnly_mustBeRemoved(message) : true;
     }
 
+    /**
+     * Creates a new timer which you can later start with {@link Timer#startPeriod()}.
+     * You could also create an immediately started timer if you didn't need
+     * multiple "active" periods with {@link #startNewTimer(String)}.
+     *
+     * Use this instead of {@link Timer#newTimer(String)} if you want a "snapshot blocked" usage that will prevent
+     * releases being built with the timer code.
+     *
+     * @param timerTitle the title for the timer
+     * @return the timer
+     * @see Timer#newTimer(String)
+     */
     public static Timer newTimer(String timerTitle) {
-        return new Timer(timerTitle);
+        return Timer.newTimer(timerTitle);
     }
 
+    /**
+     * Creates a new timer which you can later start with {@link Timer#startPeriod()}.
+     * You could also create an immediately started timer if you didn't need
+     * multiple "active" periods with {@link #startNewTimer(String, boolean)}.
+     *
+     * Use this instead of {@link Timer#newTimer(String, boolean)} if you want a "snapshot blocked" usage that will prevent
+     * releases being built with the timer code.
+     *
+     * @param timerTitle the title for the timer
+     * @param printStartAndFinishMessage whether to print a start and finish message
+     * @return the timer
+     * @see Timer#newTimer(String, boolean)
+     */
+    public static Timer newTimer(String timerTitle, boolean printStartAndFinishMessage) {
+        return Timer.newTimer(timerTitle, printStartAndFinishMessage);
+    }
+
+    /**
+     * Creates and starts a new timer.  If you need a timer that can handle
+     * multiple "active" periods then use {@link #newTimer(String)}.
+     *
+     * Use this instead of {@link Timer#startNew(String)} if you want a "snapshot blocked" usage that will prevent
+     * releases being built with the timer code.
+     *
+     * @param timerTitle the title for the timer
+     * @return the started timer
+     * @see Timer#startNew(String)
+     */
     public static Timer startNewTimer(String timerTitle) {
-        Timer timer = new Timer(timerTitle);
-        timer.startTimer();
-        return timer;
+        return Timer.startNew(timerTitle);
+    }
+
+    /**
+     * Creates and starts a new timer.  If you need a timer that can handle
+     * multiple "active" periods then use {@link #newTimer(String, boolean)}.
+     *
+     * Use this instead of {@link Timer#startNew(String, boolean)} if you want a "snapshot blocked" usage that will prevent
+     * releases being built with the timer code.
+     *
+     * @param timerTitle the title for the timer
+     * @param printStartAndFinishMessage whether to print a start and finish message
+     * @return the started timer
+     * @see Timer#startNew(String,boolean)
+     */
+    public static Timer startNewTimer(String timerTitle, boolean printStartAndFinishMessage) {
+        return Timer.startNew(timerTitle, printStartAndFinishMessage);
     }
 
     public static boolean testingOnly_mustBeRemoved(String message) {
