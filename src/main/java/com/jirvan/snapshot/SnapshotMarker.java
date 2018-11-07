@@ -92,7 +92,7 @@ public class SnapshotMarker {
         return testingOnly_mustBeRemoved(message, true);
     }
 
-    private static boolean testingOnly_mustBeRemoved(String message, boolean displayMessageOnceOnly) {
+    public static boolean testingOnly_mustBeRemoved(String message, boolean displayMessageOnceOnly) {
         if (!suppressMessages) {
             if (!displayMessageOnceOnly || displayedMessages.add(message)) {
                 if (surroundMessagesWithBlankLines) {
