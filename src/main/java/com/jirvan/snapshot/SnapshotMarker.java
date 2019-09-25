@@ -109,4 +109,8 @@ public class SnapshotMarker {
         return true;
     }
 
+    public static <T> T testingOnly(T object) {
+        return object;
+    }
+
 }
