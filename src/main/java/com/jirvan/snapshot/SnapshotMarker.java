@@ -7,9 +7,33 @@ import java.util.TreeSet;
 
 public class SnapshotMarker {
 
+    public static boolean pause = false;
+    public static boolean unpauseOnce = false;
     public static boolean suppressMessages = false;
     public static boolean surroundMessagesWithBlankLines = true;
     public static Set<String> displayedMessages = new TreeSet<>();
+
+    // The primary purpose of this (at the time of writing anyway)
+    // Is to enable a way to pause the processing flow in a way that
+    // jconsole or whatever can connect (a debugger pause stops
+    // jconsole from being able to connect to the process).  The best way
+    // to use it is to have a debugging breakpoint, then change the value
+    // of pause to true and then "unpause" the debugger so that this
+    // method can "take-over" the pausing.
+    public static void pauseWhileAppropriate() {
+        try {
+            while (pause) {
+                if (unpauseOnce) {
+                    unpauseOnce = false;
+                    break;
+                } else {
+                    Thread.sleep(1000);
+                }
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static boolean sleep_mustBeRemoved(int millis) {
         return sleep_mustBeRemoved(millis, null);
@@ -28,7 +52,7 @@ public class SnapshotMarker {
      * Creates a new timer which you can later start with {@link Timer#startPeriod()}.
      * You could also create an immediately started timer if you didn't need
      * multiple "active" periods with {@link #startNewTimer(String)}.
-     *
+     * <p>
      * Use this instead of {@link Timer#newTimer(String)} if you want a "snapshot blocked" usage that will prevent
      * releases being built with the timer code.
      *
@@ -44,11 +68,11 @@ public class SnapshotMarker {
      * Creates a new timer which you can later start with {@link Timer#startPeriod()}.
      * You could also create an immediately started timer if you didn't need
      * multiple "active" periods with {@link #startNewTimer(String, boolean)}.
-     *
+     * <p>
      * Use this instead of {@link Timer#newTimer(String, boolean)} if you want a "snapshot blocked" usage that will prevent
      * releases being built with the timer code.
      *
-     * @param timerTitle the title for the timer
+     * @param timerTitle                 the title for the timer
      * @param printStartAndFinishMessage whether to print a start and finish message
      * @return the timer
      * @see Timer#newTimer(String, boolean)
@@ -60,7 +84,7 @@ public class SnapshotMarker {
     /**
      * Creates and starts a new timer.  If you need a timer that can handle
      * multiple "active" periods then use {@link #newTimer(String)}.
-     *
+     * <p>
      * Use this instead of {@link Timer#startNew(String)} if you want a "snapshot blocked" usage that will prevent
      * releases being built with the timer code.
      *
@@ -75,14 +99,14 @@ public class SnapshotMarker {
     /**
      * Creates and starts a new timer.  If you need a timer that can handle
      * multiple "active" periods then use {@link #newTimer(String, boolean)}.
-     *
+     * <p>
      * Use this instead of {@link Timer#startNew(String, boolean)} if you want a "snapshot blocked" usage that will prevent
      * releases being built with the timer code.
      *
-     * @param timerTitle the title for the timer
+     * @param timerTitle                 the title for the timer
      * @param printStartAndFinishMessage whether to print a start and finish message
      * @return the started timer
-     * @see Timer#startNew(String,boolean)
+     * @see Timer#startNew(String, boolean)
      */
     public static Timer startNewTimer(String timerTitle, boolean printStartAndFinishMessage) {
         return Timer.startNew(timerTitle, printStartAndFinishMessage);
